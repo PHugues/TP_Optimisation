@@ -6,13 +6,6 @@ require('../../lib/prototype');
 
 ipcRenderer.on('calcul', (event, data) => {
 
-  // data mocks
-  data = {
-    val: ["30","15","24"],
-    x1: ["1","2","4"],
-    x2: ["6", "2", "1"]
-  };
-
   // define max length
   let max = data.val.length;
 
