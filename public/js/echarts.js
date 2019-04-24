@@ -5,7 +5,6 @@ var echarts = require('echarts');
 require('../../lib/prototype');
 
 ipcRenderer.on('calcul', (event, data) => {
-
   // define max length
   let max = data.val.length;
 

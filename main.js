@@ -13,7 +13,9 @@ function main() {
 
     ipcMain.on('calcul', (evt, data) => {
         let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: false});
-        graph.webContents.send('calcul', data);
+        graph.once('show', (evt2, data2) => {
+            graph.webContents.send('calcul', data);
+        })
         windows.close();
         windows = null;
     });
