@@ -12,7 +12,6 @@ ipcRenderer.on('calcul', (event, data) => {
     var myChart = echarts.init(document.getElementById('main'), 'dark');
   //define area (51) to color
   let dots = intersection(data.x1, data.x2, data.val);
-  dots = [[2,0],[2,2],[0,2]];
 
 
   // specify chart configuration item and data
@@ -27,11 +26,6 @@ ipcRenderer.on('calcul', (event, data) => {
         label: {
           backgroundColor: '#6a7985'
         }
-      }
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {}
       }
     },
     xAxis: {
