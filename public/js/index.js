@@ -50,16 +50,17 @@ document.getElementById('usefile').addEventListener('submit', (evt) => {
     let reader = new FileReader();
     let file = evt.target[0].files[0];
     reader.onload = (e) => {
-        let content = e.target.result.split('\n');
+        let content = e.target.result.trim().split('\n');
         let val = content[2].split(' ');
+        for(let i = 0 ; i < val.length ; i++) { val[i] = val[i].replace('\r', ''); }
         let x1 = [];
         let x2 = [];
         let symb = [];
         for (let i = 3; i < content.length ; i++) {
             let line = content[i].split(' ');
             symb.push("<=");
-            x1.push(line[0]);
-            x2.push(line[1]);
+            x1.push(line[0].replace('\r', ''));
+            x2.push(line[1].replace('\r', ''));
         }
         let data = {
             x1: x1,
