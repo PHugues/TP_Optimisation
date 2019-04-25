@@ -13,7 +13,7 @@ function intersection(x1Array, x2Array, resArray)
 
         if(x1Array[i] != 0)
         {
-        		coordinates = [];
+            coordinates = [];
             x1 = resArray[i] / x1Array[i];
             coordinates.push(x1);
             coordinates.push(0);

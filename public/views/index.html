@@ -34,15 +34,25 @@
     <hr width="auto" color="black" />
     <div class="container" id="content">
         <form id="calcul">
+            <div class="form-group" id="obj">
+                <select class="form-control" name="objectif">
+                    <option>max</option>
+                    <option>min</option>
+                </select>
+                z =
+                <input type="text" class="form-control" name="x1obj" placeholder="3" size="2" /> x1 +<input type="text"
+                    class="form-control" name="x2obj" placeholder="3" size="2" /> x2
+            </div>
             <div class="form-group" id="data">
                 Contraintes : <br /><br />
                 <button type="button" id="add_cons" class="btn btn-secondary">Ajouter nouvelle contrainte</button>
                 <br /><br />
-                <input type="text" class="form-control" name="x1" placeholder="3" size="2" />x1 +<input type="text"
-                    class="form-control" name="x2" placeholder="3" size="2" />x2
+                <input type="text" class="form-control" name="x1" placeholder="3" size="2" /> x1 +<input type="text"
+                    class="form-control" name="x2" placeholder="3" size="2" /> x2
                 <select class="form-control" name="symb">
-                    <option><=</option>
-                    <option>>=</option>
+                    <option>
+                        <=</option> <option>>=
+                    </option>
                 </select>
                 <input type="text" class="form-control" name="val" placeholder="3" size="2" />
                 <br /><br />
@@ -56,10 +66,11 @@
         <hr width="auto" color="grey" />
         <form id="usefile">
             <div class="form-group">
-                    <label for="file">Fichier de données : </label><br /><input type="file" name="file" accept=".json,.txt"  class="btn btn-secondary"/>
+                <label for="file">Fichier de données : </label><br /><input type="file" name="file" accept=".json,.txt"
+                    class="btn btn-secondary" />
             </div>
             <div class="form-group text-center">
-                    <input type="submit" value="Valider" class="btn btn-secondary" />
+                <input type="submit" value="Valider" class="btn btn-secondary" />
             </div>
         </form>
     </div>
