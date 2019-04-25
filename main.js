@@ -14,6 +14,7 @@ function main() {
     ipcMain.on('calcul', (evt, data) => {
         let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: false, height: 600});
         graph.once('show', (evt2, data2) => {
+            graph.maximize();
             graph.webContents.send('calcul', data);
             windows.close();
             windows = null;
