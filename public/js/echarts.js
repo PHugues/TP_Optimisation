@@ -2,7 +2,7 @@
 
 const { ipcRenderer } = require('electron');
 var echarts = require('echarts');
-require('../../lib/prototype');
+const { proto } = require('../../lib/prototype');
 
 ipcRenderer.on('calcul', (event, data) => {
     // define max length
@@ -44,8 +44,9 @@ ipcRenderer.on('calcul', (event, data) => {
     areaStyle: {}
   };
   area.data = dots;
-  option.series.push(area);
-  let sizeMax = 0;
+  // option.series.push(area);
+  let xsizeMax = 0;
+  let ysizeMax = 0;
   for(let i = 0; i < max; i++) {
     let results = {
       data : [],
@@ -55,24 +56,30 @@ ipcRenderer.on('calcul', (event, data) => {
     let secondDot = [0,0];
     firstDot[0] = data.val[i] / data.x1[i];
     secondDot[1] = data.val[i] / data.x2[i];
-    if (firstDot[0] > sizeMax) {
-      sizeMax = firstDot[0];
+    if (firstDot[0] > xsizeMax) {
+      xsizeMax = firstDot[0];
     }
-    if (secondDot[1] > sizeMax) {
-      sizeMax = secondDot[1];
+    if (secondDot[1] > ysizeMax) {
+      ysizeMax = secondDot[1];
     }
     results.data.push(firstDot);
     results.data.push(secondDot);
     option.series.push(results);
   }
 
-  let gradient = {
-    data : null,
-    type: 'line',
-  };
-  sizeMax = sizeMax * 1.05;
-  gradient.data = [[0,0],[sizeMax, sizeMax]];
-  option.series.push(gradient);
+  // Define gradient
+  if(!(data.obj.isEmpty()) && !(String.IsNullOrEmpty(data.obj.x1))) {
+    let gradient = {
+      data : null,
+      type: 'line',
+    };
+
+    let xdot = [xsizeMax * 1.05, data.obj.x2 * xsizeMax / data.obj.x1 * 1.05];
+    let ydot = [data.obj.x1 * ysizeMax / data.obj.x2 * 1.05, ysizeMax * 1.05];
+    
+    gradient.data = [[0,0],xdot,ydot];
+    option.series.push(gradient);
+  }
 
   // use configuration item and data specified to show chart
   myChart.setOption(option);
