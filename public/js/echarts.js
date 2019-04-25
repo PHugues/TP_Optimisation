@@ -5,14 +5,18 @@ var echarts = require('echarts');
 const { proto } = require('../../lib/prototype');
 
 ipcRenderer.on('calcul', (event, data) => {
-    // define max length
-    let max = data.val.length;
+  // define max length
+  let max = data.val.length;
 
-    // based on prepared DOM, initialize echarts instance
-    var myChart = echarts.init(document.getElementById('main'), 'dark');
+  // based on prepared DOM, initialize echarts instance
+  var myChart = echarts.init(document.getElementById('main'), 'dark');
+  
   //define area (51) to color
   let dots = intersection(data.x1, data.x2, data.val);
 
+  //define sizes max for each axsis
+  let xsizeMax = 0;
+  let ysizeMax = 0;
 
   // specify chart configuration item and data
   var option = {
@@ -45,23 +49,26 @@ ipcRenderer.on('calcul', (event, data) => {
   };
   area.data = dots;
   // option.series.push(area);
-  let xsizeMax = 0;
-  let ysizeMax = 0;
   for(let i = 0; i < max; i++) {
+    
     let results = {
       data : [],
       type: 'line'
     };
+    
     let firstDot = [0,0];
     let secondDot = [0,0];
+    
     firstDot[0] = data.val[i] / data.x1[i];
     secondDot[1] = data.val[i] / data.x2[i];
+    
     if (firstDot[0] > xsizeMax) {
       xsizeMax = firstDot[0];
     }
     if (secondDot[1] > ysizeMax) {
       ysizeMax = secondDot[1];
     }
+    
     results.data.push(firstDot);
     results.data.push(secondDot);
     option.series.push(results);
