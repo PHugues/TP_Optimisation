@@ -44,3 +44,8 @@ body {
     padding: 12px; 
     color: #CCCCCC;
 }
+
+.form-control {
+    width: 65px; 
+    display: inline
+}
