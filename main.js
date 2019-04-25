@@ -9,10 +9,10 @@ const Window = require('./lib/Window');
 
 // Primary function
 function main() {
-    let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: true, height: 580});
+    let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: false, height: 580});
 
     ipcMain.on('calcul', (evt, data) => {
-        let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: false, height: 600});
+        let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: true, height: 600});
         graph.once('show', (evt2, data2) => {
             graph.maximize();
             graph.webContents.send('calcul', data);

@@ -156,7 +156,7 @@ function linesEquality(x11, x12, x21, x22, res1, res2)
     // Removal of x2 values
     let divisor = x21 / x22;
     let nbX1 = x11 - (x12 * divisor);
-    // let nbX2 = x21 - (x22 * divisor);
+    let nbX2 = x21 - (x22 * divisor);
     let res = res1 - (res2 * divisor);
 
     if(nbX1 < 0)
