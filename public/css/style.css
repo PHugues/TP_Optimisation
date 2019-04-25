@@ -46,6 +46,6 @@ body {
 }
 
 .form-control {
-    width: 65px; 
+    width: auto; 
     display: inline
 }

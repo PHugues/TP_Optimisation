@@ -3,21 +3,21 @@
 require('./lib/prototype');
 
 const path = require('path');
-const { app, ipcMain, Menu } = require('electron');
+const { app, ipcMain } = require('electron');
 
 const Window = require('./lib/Window');
 
 // Primary function
 function main() {
-    let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: true, height: 550});
+    let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: true, height: 580});
 
     ipcMain.on('calcul', (evt, data) => {
-        let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: false});
+        let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: false, height: 600});
         graph.once('show', (evt2, data2) => {
             graph.webContents.send('calcul', data);
+            windows.close();
+            windows = null;
         })
-        windows.close();
-        windows = null;
     });
 
 }
@@ -29,20 +29,3 @@ app.on('ready', main);
 app.on('window-all-closed', () => {
     app.quit();
 });
-
-var option = {
-    xAxis: {
-        type: 'value',
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [{
-        data: [[120, 120], [130, 130], [140, 140]],
-        type: 'line'
-    },
-    {
-        data: [[90, 90], [80, 70], [70, 50]],
-        type: 'line'
-    }]
-};

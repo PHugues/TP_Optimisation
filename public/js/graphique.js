@@ -14,7 +14,7 @@ function intersection(x1Array, x2Array, resArray)
 
         if(x1Array[i] != 0)
         {
-        		coordinates = [];
+            coordinates = [];
             x1 = resArray[i] / x1Array[i];
             coordinates.push(x1);
             coordinates.push(0);
@@ -24,8 +24,8 @@ function intersection(x1Array, x2Array, resArray)
         {
         		coordinates = [];
             x2 = resArray[i] / x2Array[i];
-            coordinates.push(x2);
             coordinates.push(0);
+            coordinates.push(x2);
             pointArray.push(coordinates);
         }
     }
