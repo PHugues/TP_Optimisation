@@ -49,8 +49,170 @@ ipcRenderer.on('calcul', (event, data) => {
         areaStyle: {}
     };
     area.data = dots;
-    option.series.push(area);
+    console.log("dots ", dots);
     
+    //Variables to sort dots
+    let xAxis = [];
+    let yAxis = [];
+    let xyAxis = [];
+    let adminisibilityArea = [];
+
+    // Initialization sorts variables
+    area.data.forEach((dot)=> {
+        if(dot[0] < dot[1]){
+            xAxis.push(dot);
+        } else if(dot[0] > dot[1]) {
+            yAxis.push(dot);
+
+        } else if(dot[0] == dot[1]){
+            xyAxis.push(dot);
+        }
+    });
+
+    //Temporary variable to sort
+    let insertion = [];
+
+    //Sort axis
+    xAxis.forEach((dot) => {
+        if(insertion.isEmpty()){
+            insertion.push(dot);
+        } else {
+            let i = null;
+            try{
+                insertion.forEach((insertDot, index) => {
+                    if(insertDot[0] === dot[0]){
+                        if(insertDot[1] <= dot[1]){
+                            i = index + 1;
+                            throw Error();
+                        } else {
+                            i = index ;
+                            throw Error();
+                        }
+                    }
+                    if(insertDot[0] > dot[0]){
+                        i = index;
+                        throw Error();
+                    } 
+                });
+            } catch(e) {
+                
+            }
+
+            if(i === null ){
+                insertion.push(dot);
+            } else {
+                insertion.splice(i,0,dot);
+            }
+        }
+    });
+
+    xAxis = insertion;
+    insertion = [];
+
+    yAxis.forEach((dot) => {
+        if(insertion.isEmpty()){
+            insertion.push(dot);
+        } else {
+            let i = null;
+            try{
+                insertion.forEach((insertDot, index) => {
+                    if(insertDot[1] === dot[1]){
+                        if(insertDot[0] <= dot[0]){
+                            i = index;
+                            throw Error();
+                        } else {
+                            i = index + 1;
+                            throw Error();
+                        }
+                    }
+                    if(insertDot[1] < dot[1]){
+                        i = index;
+                        throw Error();
+                    } 
+                });
+            } catch(e) {
+                
+            }
+
+            if(i === null ){
+                insertion.push(dot);
+            } else {
+                insertion.splice(i,0,dot);
+            }
+        }
+    });
+
+    yAxis = insertion;
+    insertion = [];
+
+    xyAxis.forEach((dot) => {
+        if(insertion.isEmpty()){
+            insertion.push(dot);
+        } else {
+            let i = null;
+            try{
+                insertion.forEach((insertDot, index) => {
+                    if(insertDot[0] > dot[0]){
+                        i = index;
+                        throw Error();
+                    } 
+                });
+            } catch(e) {
+                
+            }
+
+            if(i === null ){
+                insertion.push(dot);
+            } else {
+                insertion.splice(i,0,dot);
+            }
+        }
+    });
+
+    xyAxis = insertion;
+    insertion = [];
+
+    // Build the area
+    xAxis.forEach((dot) => {
+        adminisibilityArea.push(dot);
+    });
+    yAxis.forEach((dot) => {
+        adminisibilityArea.push(dot);
+    });
+    insertion = adminisibilityArea;
+
+
+    let i = null;
+    xyAxis.forEach((dot) => {
+        try {
+            adminisibilityArea.forEach((adminDot, index) => {
+                if(dot[0] <= adminDot[0]){
+                    i = index;
+                    throw Error();
+                }  
+            });
+        } catch (e) {
+
+        } 
+
+    if(i !== null) {
+        insertion.splice(i,0,dot);
+    } else {
+        insertion.push(dot);
+    }
+
+        adminisibilityArea = insertion;
+    });
+
+    console.log('xyAxis : ', xyAxis);
+    console.log('yAxis : ', yAxis);
+    console.log('xAxis : ', xAxis);
+    console.log('admin : ', adminisibilityArea);
+
+    area.data = adminisibilityArea;
+
+    option.series.push(area);
+
     for (let i = 0; i < max; i++) {
 
         let results = {
