@@ -9,7 +9,7 @@ const Window = require('./lib/Window');
 
 // Primary function
 function main() {
-    let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: false, height: 580});
+    let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: false, height: 600});
 
     ipcMain.on('calcul', (evt, data) => {
         let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: true, height: 600});
