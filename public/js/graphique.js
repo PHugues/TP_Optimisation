@@ -73,7 +73,6 @@ module.exports = {
         if (x21 !== 0 || x22 !== 0) {
             let divisor = x21 / x22;
             let nbX1 = x11 - (x12 * divisor);
-            // let nbX2 = x21 - (x22 * divisor);
             let res = res1 - (res2 * divisor);
 
             if (nbX1 < 0) {
@@ -86,7 +85,6 @@ module.exports = {
             }
             x = res;
             if(!x || x === NaN) {
-                debugger
                 x = res2 /x12;
             }
         }
@@ -106,7 +104,6 @@ module.exports = {
         // Removal of x1 values
         if (x11 !== 0 || x12 !== 0) {
             divisor = x11 / x12;
-            // nbX1 = x11 - (x12 * divisor);
             nbX2 = x21 - (x22 * divisor);
             res = res1 - (res2 * divisor);
 

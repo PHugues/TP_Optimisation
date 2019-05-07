@@ -15,7 +15,6 @@ ipcRenderer.on('calcul', (event, data) => {
 
     //define area to color
     let dots = graph.isAvailable(graph.intersection(data.x1, data.x2, data.val), data.x1, data.x2, data.val);
-    console.log(graph.intersection(data.x1, data.x2, data.val))
 
     //define size max for each axis
     let xsizeMax = 0;
@@ -24,7 +23,8 @@ ipcRenderer.on('calcul', (event, data) => {
     // specify chart configuration item and data
     let option = {
         title: {
-            text: 'Représentation graphique'
+            text: 'Résolution',
+            subtext: 'graphique'
         },
         tooltip: {
             trigger: 'axis',
@@ -35,10 +35,15 @@ ipcRenderer.on('calcul', (event, data) => {
                 }
             }
         },
+        legend: {
+            data: ["Zone admissible", "Gradient"]
+        },
         xAxis: {
+            name: 'x1',
             type: 'value',
         },
         yAxis: {
+            name: 'x2',
             type: 'value'
         },
         series: []
@@ -46,6 +51,7 @@ ipcRenderer.on('calcul', (event, data) => {
 
     // initialization of the area to draw
     let area = {
+        name: "Zone admissible",
         data: null,
         type: 'line',
         areaStyle: {}
@@ -214,9 +220,12 @@ ipcRenderer.on('calcul', (event, data) => {
     for (let i = 0; i < max; i++) {
 
         let results = {
+            name: `c${i+1}`,
             data: [],
             type: 'line'
         };
+
+        option.legend.data.push(results.name);
 
         let firstDot = [0, 0];
         let secondDot = [0, 0];
@@ -251,6 +260,7 @@ ipcRenderer.on('calcul', (event, data) => {
     // Define gradient
     if (!(data.obj.isEmpty()) && !(String.IsNullOrEmpty(data.obj.x1))) {
         let gradient = {
+            name: "Gradient",
             data: null,
             type: 'line',
         };
