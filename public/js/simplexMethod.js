@@ -70,3 +70,16 @@ function columnPivot(tab)
     return indexMax;
 }
 //console.log(columnPivot(tabStart));
+
+function nextStepPivotLine(tab, indexPivotLine, pivot)
+{
+		let nbCol = tab.length;
+    nbCol = nbCol-1;
+    
+		for(let i=0; i<nbCol; i++)
+    {
+    		tab[i].val[indexPivotLine] = tab[i].val[indexPivotLine]/pivot;
+    }
+}
+//console.log(nextStepPivotLine(tabStart,2,1));
+//console.log(tabStart);
