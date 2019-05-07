@@ -15,6 +15,7 @@ ipcRenderer.on('calcul', (event, data) => {
 
     //define area to color
     let dots = graph.isAvailable(graph.intersection(data.x1, data.x2, data.val), data.x1, data.x2, data.val);
+    console.log(graph.intersection(data.x1, data.x2, data.val))
 
     //define size max for each axis
     let xsizeMax = 0;
