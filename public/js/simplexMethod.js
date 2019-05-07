@@ -83,3 +83,10 @@ function nextStepPivotLine(tab, indexPivotLine, pivot)
 }
 //console.log(nextStepPivotLine(tabStart,2,1));
 //console.log(tabStart);
+
+function determinePivot(tab, indexPivotLine, indexPivotColumn)
+{
+		let pivot = tab[indexPivotColumn].val[indexPivotLine];
+    return pivot;
+}
+//console.log(determinePivot(tabStart, 2, 1));
