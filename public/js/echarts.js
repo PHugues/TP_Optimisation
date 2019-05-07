@@ -15,7 +15,7 @@ ipcRenderer.on('calcul', (event, data) => {
     //define area (51) to color
     let dots = graph.isAvailable(graph.intersection(data.x1, data.x2, data.val), data.x1, data.x2, data.val);
 
-    //define sizes max for each axsis
+    //define sizes max for each axis
     let xsizeMax = 0;
     let ysizeMax = 0;
 
@@ -49,9 +49,9 @@ ipcRenderer.on('calcul', (event, data) => {
         areaStyle: {}
     };
     area.data = dots;
-    console.log("dots ", dots);
     
     //Variables to sort dots
+    // This will help us in order to draw the great area
     let xAxis = [];
     let yAxis = [];
     let xyAxis = [];
@@ -59,12 +59,11 @@ ipcRenderer.on('calcul', (event, data) => {
 
     // Initialization sorts variables
     area.data.forEach((dot)=> {
-        if(dot[0] < dot[1]){
+        if(dot[0] < dot[1]){            // Dots closer to x axis
             xAxis.push(dot);
-        } else if(dot[0] > dot[1]) {
+        } else if(dot[0] > dot[1]) {    // Dots closer to y axis
             yAxis.push(dot);
-
-        } else if(dot[0] == dot[1]){
+        } else if(dot[0] == dot[1]){    // Dots that are on x=y right
             xyAxis.push(dot);
         }
     });
@@ -74,11 +73,11 @@ ipcRenderer.on('calcul', (event, data) => {
 
     //Sort axis
     xAxis.forEach((dot) => {
-        if(insertion.isEmpty()){
+        if(insertion.isEmpty()){ // If empty we fill the array
             insertion.push(dot);
-        } else {
+        } else { // If the array is not empty then we sort the dots
             let i = null;
-            try{
+            try{ // We define where the dot has to be in the array
                 insertion.forEach((insertDot, index) => {
                     if(insertDot[0] === dot[0]){
                         if(insertDot[1] <= dot[1]){
@@ -97,8 +96,8 @@ ipcRenderer.on('calcul', (event, data) => {
             } catch(e) {
                 
             }
-
-            if(i === null ){
+            // We put the dot at the great place
+            if(i === null ){ // We put the dot at the great place
                 insertion.push(dot);
             } else {
                 insertion.splice(i,0,dot);
@@ -110,11 +109,11 @@ ipcRenderer.on('calcul', (event, data) => {
     insertion = [];
 
     yAxis.forEach((dot) => {
-        if(insertion.isEmpty()){
+        if(insertion.isEmpty()){ // If empty we fill the array
             insertion.push(dot);
-        } else {
+        } else { // If the array is not empty then we sort the dots
             let i = null;
-            try{
+            try{ // We define where the dot has to be in the array
                 insertion.forEach((insertDot, index) => {
                     if(insertDot[1] === dot[1]){
                         if(insertDot[0] <= dot[0]){
@@ -133,8 +132,8 @@ ipcRenderer.on('calcul', (event, data) => {
             } catch(e) {
                 
             }
-
-            if(i === null ){
+            // We put the dot at the great place
+            if(i === null ){ 
                 insertion.push(dot);
             } else {
                 insertion.splice(i,0,dot);
@@ -146,11 +145,11 @@ ipcRenderer.on('calcul', (event, data) => {
     insertion = [];
 
     xyAxis.forEach((dot) => {
-        if(insertion.isEmpty()){
+        if(insertion.isEmpty()){ // If empty we fill the array
             insertion.push(dot);
-        } else {
+        } else { // If the array is not empty then we sort the dots
             let i = null;
-            try{
+            try{ // We define where the dot has to be in the array
                 insertion.forEach((insertDot, index) => {
                     if(insertDot[0] > dot[0]){
                         i = index;
@@ -160,8 +159,8 @@ ipcRenderer.on('calcul', (event, data) => {
             } catch(e) {
                 
             }
-
-            if(i === null ){
+            // We put the dot at the great place
+            if(i === null ){ 
                 insertion.push(dot);
             } else {
                 insertion.splice(i,0,dot);
@@ -181,10 +180,10 @@ ipcRenderer.on('calcul', (event, data) => {
     });
     insertion = adminisibilityArea;
 
-
-    let i = null;
+    
     xyAxis.forEach((dot) => {
-        try {
+        let i = null;
+        try { // We define where the dot needs to be placed
             adminisibilityArea.forEach((adminDot, index) => {
                 if(dot[0] <= adminDot[0]){
                     i = index;
@@ -194,25 +193,22 @@ ipcRenderer.on('calcul', (event, data) => {
         } catch (e) {
 
         } 
-
-    if(i !== null) {
-        insertion.splice(i,0,dot);
-    } else {
-        insertion.push(dot);
-    }
+        // We put the dot at the great place
+        if(i !== null) {
+            insertion.splice(i,0,dot);
+        } else {
+            insertion.push(dot);
+        }
 
         adminisibilityArea = insertion;
     });
 
-    console.log('xyAxis : ', xyAxis);
-    console.log('yAxis : ', yAxis);
-    console.log('xAxis : ', xAxis);
-    console.log('admin : ', adminisibilityArea);
-
+    // Set the area
     area.data = adminisibilityArea;
 
     option.series.push(area);
 
+    // We define the space needed to drawn our rights
     for (let i = 0; i < max; i++) {
 
         let results = {
@@ -237,7 +233,7 @@ ipcRenderer.on('calcul', (event, data) => {
             firstDot[0] = data.val[i] / data.x2[i] > ysizeMax ? data.val[i] / data.x2[i] : ysizeMax;
             firstDot[1] = data.val[i] / data.x2[i];
         }
-
+        // Define the maximum size needed for the graph
         if (firstDot[0] > xsizeMax) {
             xsizeMax = firstDot[0];
         }
