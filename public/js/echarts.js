@@ -5,6 +5,7 @@ const echarts = require('echarts');
 const graph = require('../js/graphique');
 require('../../lib/prototype');
 
+// Receive the event "calcul" from the server
 ipcRenderer.on('calcul', (event, data) => {
     // define max length
     let max = data.val.length;
@@ -12,10 +13,10 @@ ipcRenderer.on('calcul', (event, data) => {
     // based on prepared DOM, initialize echarts instance
     let myChart = echarts.init(document.getElementById('main'), 'dark');
 
-    //define area (51) to color
+    //define area to color
     let dots = graph.isAvailable(graph.intersection(data.x1, data.x2, data.val), data.x1, data.x2, data.val);
 
-    //define sizes max for each axis
+    //define size max for each axis
     let xsizeMax = 0;
     let ysizeMax = 0;
 
@@ -49,21 +50,21 @@ ipcRenderer.on('calcul', (event, data) => {
         areaStyle: {}
     };
     area.data = dots;
-    
-    //Variables to sort dots
-    // This will help us in order to draw the great area
+
+    // Variables to sort the dots
+    // This will help us in order to draw the area
     let xAxis = [];
     let yAxis = [];
     let xyAxis = [];
-    let adminisibilityArea = [];
+    let admissibilityArea = [];
 
     // Initialization sorts variables
-    area.data.forEach((dot)=> {
-        if(dot[0] < dot[1]){            // Dots closer to x axis
+    area.data.forEach((dot) => {
+        if (dot[0] < dot[1]) { // Dots closer to x axis
             xAxis.push(dot);
-        } else if(dot[0] > dot[1]) {    // Dots closer to y axis
+        } else if (dot[0] > dot[1]) { // Dots closer to y axis
             yAxis.push(dot);
-        } else if(dot[0] == dot[1]){    // Dots that are on x=y right
+        } else if (dot[0] == dot[1]) { // Dots that are on x=y right
             xyAxis.push(dot);
         }
     });
@@ -73,34 +74,34 @@ ipcRenderer.on('calcul', (event, data) => {
 
     //Sort axis
     xAxis.forEach((dot) => {
-        if(insertion.isEmpty()){ // If empty we fill the array
+        if (insertion.isEmpty()) { // If empty we fill the array
             insertion.push(dot);
         } else { // If the array is not empty then we sort the dots
             let i = null;
-            try{ // We define where the dot has to be in the array
+            try { // We define where the dot has to be in the array
                 insertion.forEach((insertDot, index) => {
-                    if(insertDot[0] === dot[0]){
-                        if(insertDot[1] <= dot[1]){
+                    if (insertDot[0] === dot[0]) {
+                        if (insertDot[1] <= dot[1]) {
                             i = index + 1;
                             throw Error();
                         } else {
-                            i = index ;
+                            i = index;
                             throw Error();
                         }
                     }
-                    if(insertDot[0] > dot[0]){
+                    if (insertDot[0] > dot[0]) {
                         i = index;
                         throw Error();
-                    } 
+                    }
                 });
-            } catch(e) {
-                
+            } catch (e) {
+
             }
             // We put the dot at the great place
-            if(i === null ){ // We put the dot at the great place
+            if (i === null) { // We put the dot at the great place
                 insertion.push(dot);
             } else {
-                insertion.splice(i,0,dot);
+                insertion.splice(i, 0, dot);
             }
         }
     });
@@ -109,14 +110,14 @@ ipcRenderer.on('calcul', (event, data) => {
     insertion = [];
 
     yAxis.forEach((dot) => {
-        if(insertion.isEmpty()){ // If empty we fill the array
+        if (insertion.isEmpty()) { // If empty we fill the array
             insertion.push(dot);
         } else { // If the array is not empty then we sort the dots
             let i = null;
-            try{ // We define where the dot has to be in the array
+            try { // We define where the dot has to be in the array
                 insertion.forEach((insertDot, index) => {
-                    if(insertDot[1] === dot[1]){
-                        if(insertDot[0] <= dot[0]){
+                    if (insertDot[1] === dot[1]) {
+                        if (insertDot[0] <= dot[0]) {
                             i = index;
                             throw Error();
                         } else {
@@ -124,19 +125,19 @@ ipcRenderer.on('calcul', (event, data) => {
                             throw Error();
                         }
                     }
-                    if(insertDot[1] < dot[1]){
+                    if (insertDot[1] < dot[1]) {
                         i = index;
                         throw Error();
-                    } 
+                    }
                 });
-            } catch(e) {
-                
+            } catch (e) {
+
             }
             // We put the dot at the great place
-            if(i === null ){ 
+            if (i === null) {
                 insertion.push(dot);
             } else {
-                insertion.splice(i,0,dot);
+                insertion.splice(i, 0, dot);
             }
         }
     });
@@ -145,25 +146,25 @@ ipcRenderer.on('calcul', (event, data) => {
     insertion = [];
 
     xyAxis.forEach((dot) => {
-        if(insertion.isEmpty()){ // If empty we fill the array
+        if (insertion.isEmpty()) { // If empty we fill the array
             insertion.push(dot);
         } else { // If the array is not empty then we sort the dots
             let i = null;
-            try{ // We define where the dot has to be in the array
+            try { // We define where the dot has to be in the array
                 insertion.forEach((insertDot, index) => {
-                    if(insertDot[0] > dot[0]){
+                    if (insertDot[0] > dot[0]) {
                         i = index;
                         throw Error();
-                    } 
+                    }
                 });
-            } catch(e) {
-                
+            } catch (e) {
+
             }
             // We put the dot at the great place
-            if(i === null ){ 
+            if (i === null) {
                 insertion.push(dot);
             } else {
-                insertion.splice(i,0,dot);
+                insertion.splice(i, 0, dot);
             }
         }
     });
@@ -173,38 +174,38 @@ ipcRenderer.on('calcul', (event, data) => {
 
     // Build the area
     xAxis.forEach((dot) => {
-        adminisibilityArea.push(dot);
+        admissibilityArea.push(dot);
     });
     yAxis.forEach((dot) => {
-        adminisibilityArea.push(dot);
+        admissibilityArea.push(dot);
     });
-    insertion = adminisibilityArea;
+    insertion = admissibilityArea;
 
-    
+
     xyAxis.forEach((dot) => {
         let i = null;
         try { // We define where the dot needs to be placed
-            adminisibilityArea.forEach((adminDot, index) => {
-                if(dot[0] <= adminDot[0]){
+            admissibilityArea.forEach((adminDot, index) => {
+                if (dot[0] <= adminDot[0]) {
                     i = index;
-                    throw Error();
-                }  
+                    throw Error(); // Break the foreach loop
+                }
             });
         } catch (e) {
-
-        } 
+            // Do nothing
+        }
         // We put the dot at the great place
-        if(i !== null) {
-            insertion.splice(i,0,dot);
+        if (i !== null) {
+            insertion.splice(i, 0, dot);
         } else {
             insertion.push(dot);
         }
 
-        adminisibilityArea = insertion;
+        admissibilityArea = insertion;
     });
 
     // Set the area
-    area.data = adminisibilityArea;
+    area.data = admissibilityArea;
 
     option.series.push(area);
 
@@ -223,13 +224,13 @@ ipcRenderer.on('calcul', (event, data) => {
         secondDot[1] = data.val[i] / data.x2[i];
 
         // Case when line is parallel to the x2 line
-        if(Math.abs(secondDot[1]) === Infinity) {
+        if (Math.abs(secondDot[1]) === Infinity) {
             secondDot[1] = xsizeMax;
             secondDot[0] = firstDot[0];
         }
 
         // Case when line is parallel to the x1 line
-        if(Math.abs(firstDot[0]) === Infinity) {
+        if (Math.abs(firstDot[0]) === Infinity) {
             firstDot[0] = data.val[i] / data.x2[i] > ysizeMax ? data.val[i] / data.x2[i] : ysizeMax;
             firstDot[1] = data.val[i] / data.x2[i];
         }
