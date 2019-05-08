@@ -90,3 +90,36 @@ function determinePivot(tab, indexPivotLine, indexPivotColumn)
     return pivot;
 }
 //console.log(determinePivot(tabStart, 2, 1));
+
+
+function linePivot(tab, indexPivotColumn)
+{
+  let values = [];
+  let nbLine = tab.length-3;
+  for(let i=0; i<nbLine; i++)
+  {
+      if(tab[indexPivotColumn].val[i] != 0)
+      {
+          values[i] = tab[tab.length-1].val[i]/ tab[indexPivotColumn].val[i];
+      }
+      else
+      {
+          values[i] = 999999999;
+      }
+  }
+
+  let min = values[0];
+  let minIndex = 0;
+
+  for(let i=1; i<values.length; i++)
+  {
+      if(values[i]<min)
+      {
+          min = values[i];
+          minIndex = i;
+      }
+  }
+
+  return minIndex;
+}
+//console.log(linePivot(tabStart, 1));
