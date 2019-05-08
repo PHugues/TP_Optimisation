@@ -1,55 +1,54 @@
 module.exports = {
 
-    intersection: function(x1Array, x2Array, resArray) {
+    intersection: function (x1Array, x2Array, resArray) {
         let i;
         let x1;
         let x2;
         let pointArray = [];
-    
+
         const equationsNumber = x1Array.length;
-        
-        for(i=0; i<equationsNumber; i=i+1)
-        {
+
+        for (i = 0; i < equationsNumber; i = i + 1) {
             let coordinates = [];
-    
-            if(x1Array[i] != 0)
-            {
+
+            if (x1Array[i] !== 0) {
                 coordinates = [];
                 x1 = resArray[i] / x1Array[i];
                 coordinates.push(x1);
                 coordinates.push(0);
                 pointArray.push(coordinates);
             }
-            if(x2Array[i] != 0)
-            {
-                    coordinates = [];
+            if (x2Array[i] !== 0) {
+                coordinates = [];
                 x2 = resArray[i] / x2Array[i];
                 coordinates.push(0);
                 coordinates.push(x2);
                 pointArray.push(coordinates);
             }
         }
-    
-        if(equationsNumber > 1)
-        {
-            for(i=0; i<equationsNumber; i=i+1)
-            {
-                let j;
-                for(j=i+1; j<equationsNumber; j=j+1)
-                {
+
+        if (equationsNumber > 1) {
+            for (i = 0; i < equationsNumber; i = i + 1) {
+                for (let j = i + 1; j < equationsNumber; j = j + 1) {
                     let intersection = this.linesEquality(x1Array[i], x1Array[j], x2Array[i], x2Array[j], resArray[i], resArray[j]);
-                    if(intersection.length > 0) pointArray.push(intersection);
+                    if (intersection.length > 0) pointArray.push(intersection);
                 }
             }
         }
-        
+
         return pointArray;
     },
 
     // Return the intersection between two lines
     // ...x11 + ...x21 => x11 = First x1
     // ...x12 + ...x22
-    linesEquality: function(x11, x12, x21, x22, res1, res2) {
+    linesEquality: function (x11, x12, x21, x22, res1, res2) {
+        x11 = parseFloat(x11);
+        x12 = parseFloat(x12);
+        x21 = parseFloat(x21);
+        x22 = parseFloat(x22);
+        res1 = parseFloat(res1);
+        res2 = parseFloat(res2);
         let intersection = [];
 
         // Coordinates
@@ -57,8 +56,7 @@ module.exports = {
         let y;
 
         // Check if the values of the first equation are not smaller than those of the second equation
-        if(x21 < x22)
-        {
+        if (x21 < x22) {
             let swapObject = this.swap(x11, x12);
             x11 = swapObject.first;
             x12 = swapObject.second;
@@ -72,28 +70,26 @@ module.exports = {
 
 
         // Removal of x2 values
-        if(x21 != 0 || x22 != 0)
-        {
+        if (x21 !== 0 || x22 !== 0) {
             let divisor = x21 / x22;
             let nbX1 = x11 - (x12 * divisor);
-            // let nbX2 = x21 - (x22 * divisor);
             let res = res1 - (res2 * divisor);
 
-            if(nbX1 < 0)
-            {
+            if (nbX1 < 0) {
                 nbX1 = nbX1 * (-1);
                 res = res * (-1);
             }
-            if(nbX1 !== 1)
-            {
+            if (nbX1 !== 1) {
                 res = res / nbX1;
                 nbX1 = nbX1 / nbX1;
             }
-            x = res;            
+            x = res;
+            if(!x || x === NaN) {
+                x = res2 /x12;
+            }
         }
-        
-        if(x11 < x12)
-        {
+
+        if (x11 < x12) {
             let swapObject = this.swap(x11, x12);
             x11 = swapObject.first;
             x12 = swapObject.second;
@@ -104,74 +100,71 @@ module.exports = {
             res1 = resSwap.first;
             res2 = resSwap.second;
         }
-        
+
         // Removal of x1 values
-        if(x11 != 0 || x12 != 0)
-        {
+        if (x11 !== 0 || x12 !== 0) {
             divisor = x11 / x12;
-            // nbX1 = x11 - (x12 * divisor);
             nbX2 = x21 - (x22 * divisor);
             res = res1 - (res2 * divisor);
 
-            if(nbX2 < 0)
-            {
+            if (nbX2 < 0) {
                 nbX2 = nbX2 * (-1);
                 res = res * (-1);
             }
-            if(nbX2 != 1)
-            {
-            res = res / nbX2;
+            if (nbX2 !== 1) {
+                res = res / nbX2;
                 nbX2 = nbX2 / nbX2;
             }
             y = res;
+            if(!y || y === NaN) {
+                y = res2 / x22;
+            }
         }
-        
-        if(x && y) {
+
+        if (x && y) {
             intersection.push(x);
             intersection.push(y);
         }
-        
-        
+
+
         return intersection;
     },
 
     // Return an object with the two values exchanged
     // Key 1 = first
     // Key 2 = second
-    swap: function(val1, val2) {
+    swap: function (val1, val2) {
         let val3 = val1;
         val1 = val2;
         val2 = val3;
-        
-        var swapObject = {first:val1, second:val2};
+
+        var swapObject = {
+            first: val1,
+            second: val2
+        };
         return swapObject;
     },
 
     // Check in the list of the intersection point what point are available
-    isAvailable: function(pointArray, x1Array, x2Array, resArray) {
+    isAvailable: function (pointArray, x1Array, x2Array, resArray) {
         let x;
         let y;
-        
+
         let cpt = 0;
-        
+
         let availablePoint = [];
-        
-        for(let i=0; i<pointArray.length; i++)
-        {
+
+        for (let i = 0; i < pointArray.length; i++) {
             x = pointArray[i][0];
             y = pointArray[i][1];
-            
+
             cpt = 0;
 
-            if(x >= 0 && y >= 0)
-            {
-                for(let j=0; j<x1Array.length; j++)
-                {
-                    if(x*x1Array[j]+y*x2Array[j] <= resArray[j])
-                    {
+            if (x >= 0 && y >= 0) {
+                for (let j = 0; j < x1Array.length; j++) {
+                    if (x * x1Array[j] + y * x2Array[j] <= resArray[j]) {
                         cpt = cpt + 1;
-                        if(!(availablePoint.includes(pointArray[i])) && cpt === resArray.length)
-                        {
+                        if (!(availablePoint.includes(pointArray[i])) && cpt === resArray.length) {
                             availablePoint.push(pointArray[i]);
                         }
                     }

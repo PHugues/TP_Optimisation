@@ -1,16 +1,53 @@
 {
-    "name": "TP_Optimisation",
-    "version": "0.1.0",
-    "author": "Pierre Hugues",
-    "license": "GPL-3.0",
-    "main": "main.js",
-    "scripts": {
-        "start": "electron ."
+  "name": "TP_Optimisation",
+  "version": "0.1.0",
+  "author": {
+    "name": "Pierre Hugues;Roxanne Thomas;Cécile Crochon",
+    "email": "pierre.hugues1998@gmail.com"
+  },
+  "license": "GPL-3.0",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "install-app-deps",
+    "start": "npm install && electron .",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "fr-istv-tpopti-hugues",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     },
-    "dependencies": {
-        "echarts": "^4.2.1",
-        "electron": "^4.1.4",
-        "electron-store": "^3.2.0",
-        "request": "^2.88.0"
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "build/icon.png"
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
     }
+  },
+  "dependencies": {
+    "echarts": "^4.2.1",
+    "electron-store": "^3.2.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "electron": "^4.1.4",
+    "electron-builder": "^20.39.0"
+  }
 }
