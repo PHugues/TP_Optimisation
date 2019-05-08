@@ -41,11 +41,25 @@ body {
 }
 
 #content {
-    padding: 12px; 
+    padding: 12px;
     color: #CCCCCC;
 }
 
+#graph,
+#simp {
+    width: 800px;
+    height: 700px;
+}
+
+#graph {
+    float: left;
+}
+
+#simp {
+    float: right;
+}
+
 .form-control {
-    width: auto; 
+    width: auto;
     display: inline
 }

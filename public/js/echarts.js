@@ -2,16 +2,33 @@
 
 const { ipcRenderer } = require('electron');
 const echarts = require('echarts');
+
 const graph = require('../js/graphique');
+const Simplexe = require('../../lib/Simplexe');
 require('../../lib/prototype');
+
+let simplexe;
 
 // Receive the event "calcul" from the server
 ipcRenderer.on('calcul', (event, data) => {
+    buildGraph(data);
+    buildSimplexeTab(data);
+});
+
+/**
+ * Build the graph and display it
+ * @param {Object} data Set of data received from the server
+ * @param {Array<String>} data.x1 Set of x1 values
+ * @param {Array<String>} data.x2 Set of x2 values
+ * @param {Array<String>} data.val Set of values
+ * @param {Object} data.obj Objective function
+ */
+function buildGraph(data) {
     // define max length
     let max = data.val.length;
 
     // based on prepared DOM, initialize echarts instance
-    let myChart = echarts.init(document.getElementById('main'), 'dark');
+    let myChart = echarts.init(document.getElementById('graph'), 'dark');
 
     //define area to color
     let dots = graph.isAvailable(graph.intersection(data.x1, data.x2, data.val), data.x1, data.x2, data.val);
@@ -23,8 +40,7 @@ ipcRenderer.on('calcul', (event, data) => {
     // specify chart configuration item and data
     let option = {
         title: {
-            text: 'Résolution',
-            subtext: 'graphique'
+            text: 'Graphique',
         },
         tooltip: {
             trigger: 'axis',
@@ -276,4 +292,37 @@ ipcRenderer.on('calcul', (event, data) => {
 
     // use configuration item and data specified to show chart
     myChart.setOption(option);
+}
+
+
+function buildSimplexeTab(data) {
+    let html;
+    simplexe = new Simplexe(data);
+
+    for(let i = 0 ; i < simplexe.nbConstraint ; i++) {
+        // Insert the names of the newly introduced variables
+        $(`<th>e${i+1}</th>`).insertAfter('#headX2')
+
+        // Add the lines
+        html = `<tr><td>${simplexe.inBase[i]}`;
+        for(let column of simplexe.tab) {
+            html += `<td>${column.val[i]}</td>`
+        }
+        html += "</tr>"
+        $('#tableBody').append(html);
+    }
+
+    html =  `<tr><td>MAX</td>`
+    for(let column of simplexe.tab) {
+        html += `<td>${column.val[simplexe.nbConstraint]}</td>`
+    }
+    $('#tableBody').append(html);
+}
+
+$('#stepSimp').click(() => {
+    
+});
+
+$('#resSimp').click(() => {
+
 });
