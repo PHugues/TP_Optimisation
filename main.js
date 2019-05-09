@@ -9,10 +9,15 @@ const Window = require('./lib/Window');
 
 // Primary function
 function main() {
+    // Build new Window
     let windows = new Window({file: path.join('public/views', 'index.html'), openDevTools: false, height: 600, icon: __dirname + '/build/icon.png'});
 
+    // Event 'calcul' received from the client
     ipcMain.on('calcul', (evt, data) => {
-        let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: true, height: 600, icon: __dirname + '/build/icon.png'});
+        // Build new Window
+        let graph = new Window({file: path.join('public/views', 'echarts.html'), openDevTools: false, height: 600, icon: __dirname + '/build/icon.png'});
+
+        // Send the data once the window is fully ready and close the previous one
         graph.once('show', (evt2, data2) => {
             graph.maximize();
             graph.webContents.send('calcul', data);
@@ -20,7 +25,6 @@ function main() {
             windows = null;
         })
     });
-
 }
 
 // When Electron is ready, launch the function

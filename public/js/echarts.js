@@ -11,8 +11,9 @@ let simplexe;
 
 // Receive the event "calcul" from the server
 ipcRenderer.on('calcul', (event, data) => {
+    simplexe = new Simplexe(data);
     buildGraph(data);
-    buildSimplexeTab(data);
+    buildSimplexeTab(simplexe, true);
 });
 
 /**
@@ -294,35 +295,45 @@ function buildGraph(data) {
     myChart.setOption(option);
 }
 
-
-function buildSimplexeTab(data) {
-    let html;
-    simplexe = new Simplexe(data);
+/**
+ * Build the tab from the simplexe
+ * @param {Simplexe} simplexe Simplexe instance to transform in a tab
+ * @param {Boolean} init First time we build the tab
+ */
+function buildSimplexeTab(simplexe, init) {
+    let html = "";
 
     for(let i = 0 ; i < simplexe.nbConstraint ; i++) {
         // Insert the names of the newly introduced variables
-        $(`<th>e${i+1}</th>`).insertAfter('#headX2')
+        if(init) { $(`<th>e${i+1}</th>`).insertAfter('#headX2'); }
 
         // Add the lines
-        html = `<tr><td>${simplexe.inBase[i]}`;
+        html += `<tr><td>${simplexe.inBase[i]}`;
         for(let column of simplexe.tab) {
             html += `<td>${column.val[i]}</td>`
         }
         html += "</tr>"
-        $('#tableBody').append(html);
     }
 
-    html =  `<tr><td>MAX</td>`
+    html +=  `<tr><td>MAX</td>`
     for(let column of simplexe.tab) {
         html += `<td>${column.val[simplexe.nbConstraint]}</td>`
     }
-    $('#tableBody').append(html);
+    $('#tableBody').html(html);
 }
 
+// Click on next step
 $('#stepSimp').click(() => {
-    
+    $('#stepSimp').attr("disabled", true);
+    simplexe.changeState();
+    buildSimplexeTab(simplexe, false);
+    $('#stepSimp').removeAttr("disabled");
 });
 
+// Click on resolve simplexe
 $('#resSimp').click(() => {
-
+    $('#resSimp').attr("disabled", true);
+    simplexe.simplexMethod();
+    buildSimplexeTab(simplexe, false);
+    $('#resSimp').removeAttr("disabled");
 });

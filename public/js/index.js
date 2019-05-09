@@ -2,7 +2,7 @@
 
 const { ipcRenderer } = require('electron');
 
-// Listen for the submission of the form
+// Listen for the submission of the form (without file input)
 document.getElementById('calcul').addEventListener('submit', (evt) => {
     // Prevent default refresh of the page
     evt.preventDefault();
@@ -54,6 +54,7 @@ document.getElementById('calcul').addEventListener('submit', (evt) => {
     ipcRenderer.send('calcul', input);
 });
 
+// Listen for the submission of the form (with file input)
 document.getElementById('usefile').addEventListener('submit', (evt) => {
     // Prevent default refresh of the page
     evt.preventDefault();
@@ -97,11 +98,11 @@ document.getElementById('usefile').addEventListener('submit', (evt) => {
 
 });
 
+// Listen for the click on the button to add a constraint
 document.getElementById('add_cons').addEventListener('click', () => {
-    document.getElementById('data').insertAdjacentHTML('beforeend', `<input type="text" class="form-control" name="x1" placeholder="3" size="2" />x1 +<input type="text" class="form-control" name="x2" placeholder="3" size="2" />x2
+    document.getElementById('data').insertAdjacentHTML('beforeend', `<input type="text" class="form-control" name="x1" placeholder="3" size="2" /> x1 +<input type="text" class="form-control" name="x2" placeholder="3" size="2" /> x2
     <select class="form-control" name="symb">
         <option><=</option>
-        <option>>=</option>
     </select>
     <input type="text" class="form-control" name="val" placeholder="3" size="2" required />
     <br /><br />`);
