@@ -7,6 +7,10 @@
 function generateAleaMethode()
 {
     let nbConstraint = getRandomInt(5);
+    if(nbConstraint == 0)
+    {
+        nbConstraint = nbConstraint +1;
+    }
     
     // maximize function variables
     let x1Val;
