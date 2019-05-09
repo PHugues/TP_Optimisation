@@ -1,5 +1,7 @@
 .vscode/
 dist/linux-unpacked
+dist/win-unpacked
 node_modules/
 dist/latest-linux.yml
 dist/builder-effective-config.yaml
+dist/latest.yml
