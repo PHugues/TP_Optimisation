@@ -1,5 +1,11 @@
 module.exports = {
-    
+
+    /**
+     * Create constraint and a maximize function with random numbers
+     * Number of constraint : 0-5;
+     * Number of x and y : 0-100;
+     *    '--> for the maximize function and the constraint
+     */
     generateAleaMethode: function () {
         let nbConstraint = this.getRandomInt(5);
         nbConstraint = nbConstraint < 2 ? 2 : nbConstraint;
