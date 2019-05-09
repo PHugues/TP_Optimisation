@@ -1,6 +1,6 @@
 {
-  "name": "TP_Optimisation",
-  "version": "0.1.0",
+  "name": "simplexe",
+  "version": "1.0.0",
   "author": {
     "name": "Pierre Hugues;Roxanne Thomas;Cécile Crochon",
     "email": "pierre.hugues1998@gmail.com"
@@ -13,9 +13,12 @@
     "pack": "build --dir",
     "dist": "build"
   },
+  "description": "Application to solve linear problem using both a visual graph and the simplex algorithm.",
   "build": {
     "appId": "fr-istv-tpopti-hugues",
     "dmg": {
+      "icon": "build/icon.icns",
+      "background": "build/icon.png",
       "contents": [
         {
           "x": 110,
@@ -30,11 +33,11 @@
       ]
     },
     "linux": {
+      "category": "Science",
       "target": [
         "AppImage",
         "deb"
-      ],
-      "icon": "build/icon.png"
+      ]
     },
     "win": {
       "target": "NSIS",

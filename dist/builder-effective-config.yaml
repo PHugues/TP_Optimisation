@@ -3,6 +3,8 @@ directories:
   buildResources: build
 appId: fr-istv-tpopti-hugues
 dmg:
+  icon: build/icon.icns
+  background: build/icon.png
   contents:
     - x: 110
       'y': 150
@@ -11,11 +13,11 @@ dmg:
       type: link
       path: /Applications
 linux:
+  category: Science
   target:
     - AppImage
     - deb
-  icon: build/icon.png
 win:
   target: NSIS
   icon: build/icon.ico
-electronVersion: 4.1.4
+electronVersion: 4.2.0
