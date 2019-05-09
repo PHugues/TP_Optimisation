@@ -1,3 +1,9 @@
+/**
+ * Create constraint and a maximize function with random numbers
+ * Number of constraint : 0-5;
+ * Number of x and y : 0-100;
+ *    '--> for the maximize function and the constraint
+ */
 function generateAleaMethode()
 {
     let nbConstraint = getRandomInt(5);
@@ -23,7 +29,7 @@ function generateAleaMethode()
     x1Val = getRandomInt(100) + "";
     x2Val = getRandomInt(100) + "";
     
-    
+
     // creation of the data object
     let data = {
       x1 : xValues,
