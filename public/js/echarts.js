@@ -305,7 +305,7 @@ function buildSimplexeTab(simplexe, init) {
 
     for(let i = 0 ; i < simplexe.nbConstraint ; i++) {
         // Insert the names of the newly introduced variables
-        if(init) { $(`<th>e${i+1}</th>`).insertAfter('#headX2'); }
+        if(init) { $(`<th>e${simplexe.nbConstraint-i}</th>`).insertAfter('#headX2'); }
 
         // Add the lines
         html += `<tr><td>${simplexe.inBase[i]}`;
