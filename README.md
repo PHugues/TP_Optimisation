@@ -8,11 +8,9 @@ Pierre Hugues
 
 Licence 3 Informatique par Apprentissage
 
-## Rapport
-
-https://docs.google.com/document/d/1dEXNh2nFYFIcyKJIqoTQeAK2iLP93Xeqr8642tsM0ro/edit?usp=sharing
-
 ## Installation
+
+Les installeurs sont tous situés dans le dossier dist dans la racine du projet.
 
 ### Linux
 
@@ -26,3 +24,10 @@ OU
     Taper la commande 'npm start'
 
 ### Windows
+
+- Lancer le fichier .exe, cela installera l'application sur le PC
+OU
+- Compiler l'application à partir des sources :
+    Se situer dans le dossier racine
+    Ouvrir un terminal
+    Taper la commande 'npm start'
