@@ -34,6 +34,12 @@ function buildGraph(data) {
     //define area to color
     let dots = graph.isAvailable(graph.intersection(data.x1, data.x2, data.val), data.x1, data.x2, data.val);
 
+    if (dots.isEmpty()) {
+        alert('Aucune solution.');
+        $('#stepSimp').attr("disabled", true);
+        $('#resSimp').attr("disabled", true);
+    }
+
     //define size max for each axis
     let xsizeMax = 0;
     let ysizeMax = 0;
@@ -303,20 +309,22 @@ function buildGraph(data) {
 function buildSimplexeTab(simplexe, init) {
     let html = "";
 
-    for(let i = 0 ; i < simplexe.nbConstraint ; i++) {
+    for (let i = 0; i < simplexe.nbConstraint; i++) {
         // Insert the names of the newly introduced variables
-        if(init) { $(`<th>e${simplexe.nbConstraint-i}</th>`).insertAfter('#headX2'); }
+        if (init) {
+            $(`<th>e${simplexe.nbConstraint-i}</th>`).insertAfter('#headX2');
+        }
 
         // Add the lines
         html += `<tr><td>${simplexe.inBase[i]}`;
-        for(let column of simplexe.tab) {
+        for (let column of simplexe.tab) {
             html += `<td>${column.val[i]}</td>`
         }
         html += "</tr>"
     }
 
-    html +=  `<tr><td>MAX</td>`
-    for(let column of simplexe.tab) {
+    html += `<tr><td>MAX</td>`
+    for (let column of simplexe.tab) {
         html += `<td>${column.val[simplexe.nbConstraint]}</td>`
     }
     $('#tableBody').html(html);
@@ -333,7 +341,9 @@ $('#stepSimp').click(() => {
 // Click on resolve simplexe
 $('#resSimp').click(() => {
     $('#resSimp').attr("disabled", true);
-    simplexe.simplexMethod();
+    let data = simplexe.simplexMethod();
     buildSimplexeTab(simplexe, false);
     $('#resSimp').removeAttr("disabled");
+    let html = `<hr width="auto" color="grey" />Point optimal :<br/>x1 = ${data.x1}<br/>x2 = ${data.x2}`
+    $('#simp').append(html);
 });
