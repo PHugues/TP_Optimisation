@@ -1,6 +1,8 @@
 'use strict'
 
 const { ipcRenderer } = require('electron');
+const random = require('../js/aleatoire');
+
 
 // Listen for the submission of the form (without file input)
 document.getElementById('calcul').addEventListener('submit', (evt) => {
@@ -106,4 +108,10 @@ document.getElementById('add_cons').addEventListener('click', () => {
     </select>
     <input type="text" class="form-control" name="val" placeholder="3" size="2" required />
     <br /><br />`);
+});
+
+// Listen for the click on the button to add a constraint
+document.getElementById('random').addEventListener('click', () => {
+    let data = random.generateAleaMethode();
+    ipcRenderer.send('calcul', data);
 });
