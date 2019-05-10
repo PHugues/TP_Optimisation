@@ -10,7 +10,7 @@ Licence 3 Informatique par Apprentissage
 
 ## Installation
 
-Les installeurs sont tous situés dans le dossier dist dans la racine du projet.
+Les installeurs sont tous situés dans les releases : https://github.com/PHugues/TP_Optimisation/releases
 
 ### Linux
 
